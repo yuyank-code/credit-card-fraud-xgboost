@@ -1,0 +1,13 @@
+{
+  "n_total": 100000,
+  "fraud_count": 600,
+  "fraud_rate": 0.006,
+  "train_after_smote": 149100,
+  "roc_auc": 0.9974215962441315,
+  "average_precision_pr_auc": 0.929581301938361,
+  "selected_threshold_max_f1": 0.9056756496429443,
+  "precision": 0.9,
+  "recall": 0.84,
+  "f1": 0.8689655172413793,
+  "confusion_matrix": [[24836, 14], [24, 126]]
+}
