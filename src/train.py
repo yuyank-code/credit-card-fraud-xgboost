@@ -36,6 +36,7 @@ RANDOM_STATE = 42
 N_SAMPLES = 100_000
 FRAUD_COUNT = 600
 TEST_SIZE = 0.25
+MODEL_FILENAME = "xgboost_smote_fraud.joblib"
 
 
 # -----------------------------------------------------------------------------
@@ -151,7 +152,15 @@ def main():
         "confusion_matrix": matrix.tolist(),
     }
 
-    joblib.dump(model, MODEL_DIR / "xgboost_smote_fraud.joblib")
+    # Save an uncompressed Joblib artifact so the trained XGBoost model is
+    # directly usable without an additional compression layer. Protocol 5 is
+    # efficient for NumPy/XGBoost objects while keeping loading straightforward.
+    joblib.dump(
+        model,
+        MODEL_DIR / MODEL_FILENAME,
+        compress=0,
+        protocol=5,
+    )
 
     with open(RESULTS_DIR / "metrics.json", "w", encoding="utf-8") as file:
         json.dump(metrics, file, indent=2)
@@ -215,6 +224,7 @@ def main():
     print(f"Precision:{metrics['precision']:.3f}")
     print(f"Recall:   {metrics['recall']:.3f}")
     print(f"F1-score: {metrics['f1']:.3f}")
+    print(f"Model:    {MODEL_DIR / MODEL_FILENAME}")
 
 
 if __name__ == "__main__":
